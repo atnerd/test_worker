@@ -1,7 +1,7 @@
 import os
 import queue
-from threading import Lock
-from threading import Thread
+from threading import Lock, Thread
+
 from remote_storage import remote_storage
 
 N_WORKERS = int(os.getenv("N_WORKERS", 3))
@@ -28,7 +28,7 @@ def worker(worker_id):
 
 def init_workers():
     for worker_id in range(N_WORKERS):
-        Thread(target=worker, args=(worker_id, )).start()
+        Thread(target=worker, args=(worker_id,)).start()
 
 
 def stop_workers():

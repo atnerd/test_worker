@@ -1,8 +1,10 @@
-from flask import Flask, request, jsonify
-from worker import task_queue, storage_lock, stop_workers, init_workers
+from flask import Flask, jsonify, request
+
 from remote_storage import remote_storage
+from worker import init_workers, stop_workers, storage_lock, task_queue
 
 app = Flask(__name__)
+
 
 @app.route("/submit", methods=["POST"])
 def submit_numbers():
