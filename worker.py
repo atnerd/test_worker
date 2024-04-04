@@ -16,6 +16,20 @@ workers = []
 
 
 def worker(worker_id):
+    """
+    function retrieves a list of numbers from a globally accessible task queue,
+    computes their sum, and adds the result to a cumulative sum stored in a remote storage. This
+    process is synchronized using a global lock to ensure thread safety when accessing and modifying
+    the remote storage. The function terminates when it retrieves a None value from the task queue,
+    indicating no more tasks are available.
+
+    Parameters:
+    - worker_id (int): An identifier for the worker, used for logging purposes.
+
+    Returns:
+    - None. The function directly modifies the global `remote_storage` and outputs to the console.
+    """
+
     while True:
         numbers = task_queue.get()
         if numbers is None:
@@ -23,7 +37,7 @@ def worker(worker_id):
         result = sum(numbers)
         with storage_lock:
             remote_storage["sum"] += result
-        print(f"Worker {worker_id} processed: {result}")
+        print(f"Worker {worker_id=} finished processing: {result=}")
 
 
 def init_workers():

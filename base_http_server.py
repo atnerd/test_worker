@@ -14,7 +14,6 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.path == "/results":
             self.send_response(404)
-            self.end_headers()
             self.wfile.write(b"Invalid address")
             return
         self._set_response()
@@ -24,7 +23,6 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         if not self.path == "/submit":
             self.send_response(404)
-            self.end_headers()
             self.wfile.write(b"Invalid address")
             return
         content_length = int(self.headers["Content-Length"])
@@ -32,7 +30,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         numbers = post_data.get("numbers")
         if not numbers or not all(isinstance(n, int) and 1 <= n <= 99 for n in numbers):
             self.send_response(400)
-            self.end_headers()
             self.wfile.write(b"Invalid input")
         else:
             task_queue.put(numbers)
