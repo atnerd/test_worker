@@ -18,7 +18,7 @@ def submit_numbers():
     }
 
     """
-    numbers = request.get_json().get("numbers")
+    numbers = request.get_json().get("numbers", [])
     if not all(1 <= num <= 99 for num in numbers):
         return "Numbers must be in the range [1, 99].", 400
 
